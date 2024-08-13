@@ -1,4 +1,4 @@
-export const dashboardData = {
+export const initialDashboardData = {
   categories: [
     {
       categoryId: 1,
@@ -35,10 +35,10 @@ export const dashboardData = {
   ],
 };
 
-export const categories = dashboardData.categories;
+export const categories = initialDashboardData.categories;
 
 export function addWidget(categoryId, widgetName, widgetText) {
-  const category = dashboardData.categories.find(
+  const category = initialDashboardData.categories.find(
     (cat) => cat.categoryId === categoryId
   );
   if (category) {

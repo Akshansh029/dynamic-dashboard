@@ -1,27 +1,15 @@
-"use client";
+// Widget.jsx
 import React from "react";
 import { BsGraphUp } from "react-icons/bs";
 import { IoIosClose } from "react-icons/io";
-import { dashboardData } from "@/dashboardData";
 
-const removeWidget = (categoryId, widgetId) => {
-  console.log("Removing");
-  const category = dashboardData.categories.find(
-    (cat) => cat.categoryId === categoryId
-  );
-  if (category) {
-    category.widgets = category.widgets.filter(
-      (widget) => widget.widgetId !== widgetId
-    );
-  } else {
-    console.error("Category not found!");
-  }
-};
-
-const Widget = ({ widgetName, widgetText }) => {
+const Widget = ({ categoryId, widgetId, widgetName, widgetText, onRemove }) => {
   return (
     <div className="relative widget w-[400px] h-[200px] bg-white rounded-xl flex flex-col p-4">
-      <button className="absolute top-3 right-3" onClick={() => removeWidget()}>
+      <button
+        className="absolute top-3 right-3"
+        onClick={() => onRemove(categoryId, widgetId)}
+      >
         <IoIosClose className="text-slate-600 " size={24} />
       </button>
       <h2 className="text-base font-semibold text-[#054b72]">{widgetName}</h2>

@@ -1,5 +1,3 @@
-// This is the JSON data structure for dynamically building the dashboard
-
 export const dashboardData = {
   categories: [
     {
@@ -37,6 +35,8 @@ export const dashboardData = {
   ],
 };
 
+export const categories = dashboardData.categories;
+
 export function addWidget(categoryId, widgetName, widgetText) {
   const category = dashboardData.categories.find(
     (cat) => cat.categoryId === categoryId
@@ -50,19 +50,6 @@ export function addWidget(categoryId, widgetName, widgetText) {
       widgetName,
       widgetText,
     });
-  } else {
-    console.error("Category not found!");
-  }
-}
-
-export function removeWidget(categoryId, widgetId) {
-  const category = dashboardData.categories.find(
-    (cat) => cat.categoryId === categoryId
-  );
-  if (category) {
-    category.widgets = category.widgets.filter(
-      (widget) => widget.widgetId !== widgetId
-    );
   } else {
     console.error("Category not found!");
   }

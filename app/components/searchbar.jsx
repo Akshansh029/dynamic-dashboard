@@ -11,7 +11,7 @@ const Searchbar = ({
 }) => {
   return (
     <div
-      className={`flex items-center h-8 min-w-[180px] w-[270px] px-3 rounded-md gap-2 bg-slate-300`}
+      className={`flex items-center h-8 min-w-[180px] w-[270px] px-3 rounded-md gap-2 bg-slate-200`}
     >
       <input
         type="text"

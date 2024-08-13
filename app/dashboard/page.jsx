@@ -41,13 +41,15 @@ const Page = () => {
       {openSidebar && <WidgetSidebar closeSidebar={handleCloseSidebar} />}
       <div className="">
         <div className="w-full flex items-center justify-between">
-          <h1 className="text-2xl font-semibold text-black">CNAPP Dashboard</h1>
+          <h1 className="text-2xl font-semibold text-[#054b72]">
+            CNAPP Dashboard
+          </h1>
           <AddWidgetButton handleOpenSidebar={handleOpenSidebar} />
         </div>
         <div className="category-container px-2 py-2 flex flex-col gap-4">
           {dashboardData.categories.map((category) => (
-            <div className="text-black" key={category.categoryId}>
-              <h2 className="text-lg font-semibold text-[#054b72]">
+            <div className="text-slate-800" key={category.categoryId}>
+              <h2 className="text-lg font-semibold text-slate-800">
                 {category.categoryName}
               </h2>
               <div className="mt-2 flex items-center gap-3">

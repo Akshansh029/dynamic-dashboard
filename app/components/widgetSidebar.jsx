@@ -1,6 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
+import { initialDashboardData } from "@/dashboardData";
 
 const WidgetSidebar = ({ closeSidebar }) => {
+  const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(null);
+
+  const handleClick = (index) => {
+    setSelectedCategoryIndex(index);
+  };
+
   return (
     <>
       <div
@@ -15,6 +22,24 @@ const WidgetSidebar = ({ closeSidebar }) => {
           <p className="text-sm text-black font-medium">
             Personalize your dashboard by adding the following widget
           </p>
+          <div className="container w-fit flex">
+            {initialDashboardData.categories.map((category, index) => (
+              <button
+                key={index}
+                className="relative text-sm font-semibold text-slate-400 w-[80px] py-4 hover:text-[#054b72]"
+                onClick={() => handleClick(index)}
+              >
+                {category.categoryName.split(" ")[0]}
+                <span
+                  className={`absolute bottom-0 left-0 h-[2px] w-full transition-all duration-300 ${
+                    selectedCategoryIndex === index
+                      ? "bg-[#054b72]"
+                      : "bg-slate-400"
+                  }`}
+                ></span>
+              </button>
+            ))}
+          </div>
         </div>
       </div>
     </>

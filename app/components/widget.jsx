@@ -12,7 +12,7 @@ const Widget = ({ categoryId, widgetId, widgetName, widgetText, onRemove }) => {
       >
         <IoIosClose className="text-slate-600 " size={24} />
       </button>
-      <h2 className="text-base font-semibold text-[#054b72]">{widgetName}</h2>
+      <h2 className="text-base font-semibold text-slate-800">{widgetName}</h2>
       <div className="flex flex-col h-full">
         <p className="text-black text-base mt-2">{widgetText}</p>
         <div className="mt-[2rem] flex flex-col items-center justify-center gap-2s">

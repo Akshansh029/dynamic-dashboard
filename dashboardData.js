@@ -18,7 +18,7 @@ export const initialDashboardData = {
     },
     {
       categoryId: 2,
-      categoryName: "Operations Dashboard",
+      categoryName: "CWPP Dashboard",
       widgets: [
         {
           widgetId: 1,

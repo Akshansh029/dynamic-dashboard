@@ -32,6 +32,22 @@ export const initialDashboardData = {
         },
       ],
     },
+    {
+      categoryId: 3,
+      categoryName: "Registry Scan",
+      widgets: [
+        {
+          widgetId: 1,
+          widgetName: "Widget C",
+          widgetText: "This is some random text for Widget C.",
+        },
+        {
+          widgetId: 2,
+          widgetName: "Widget D",
+          widgetText: "This is some random text for Widget D.",
+        },
+      ],
+    },
   ],
 };
 

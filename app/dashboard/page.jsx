@@ -1,16 +1,27 @@
-// Page.jsx
 "use client";
 import React, { useState } from "react";
 import AddWidgetButton from "../components/AddWidgetButton";
 import { initialDashboardData } from "@/dashboardData";
 import Widget from "../components/Widget";
+import WidgetSidebar from "../components/WidgetSidebar";
 
 const Page = () => {
   const [dashboardData, setDashboardData] = useState(initialDashboardData);
+  const [openSidebar, setOpenSidebar] = useState(false);
+
+  const handleOpenSidebar = (e) => {
+    e.preventDefault();
+    setOpenSidebar(true);
+    console.log("Opening");
+  };
+
+  const handleCloseSidebar = () => {
+    setOpenSidebar(false);
+  };
 
   const removeWidget = (categoryId, widgetId) => {
-    setDashboardData((prevData) => {
-      const updatedCategories = prevData.categories.map((category) => {
+    setDashboardData((prev) => {
+      const updatedCategories = prev.categories.map((category) => {
         if (category.categoryId === categoryId) {
           return {
             ...category,
@@ -26,11 +37,12 @@ const Page = () => {
   };
 
   return (
-    <div className="h-full bg-[#f0f5f9] py-10 px-8">
+    <div className="h-full bg-[#f0f5f9] py-10 px-8 relative">
+      {openSidebar && <WidgetSidebar closeSidebar={handleCloseSidebar} />}
       <div className="">
         <div className="w-full flex items-center justify-between">
           <h1 className="text-2xl font-semibold text-black">CNAPP Dashboard</h1>
-          <AddWidgetButton />
+          <AddWidgetButton handleOpenSidebar={handleOpenSidebar} />
         </div>
         <div className="category-container px-2 py-2 flex flex-col gap-4">
           {dashboardData.categories.map((category) => (
@@ -46,11 +58,11 @@ const Page = () => {
                     widgetId={widget.widgetId}
                     widgetName={widget.widgetName}
                     widgetText={widget.widgetText}
-                    onRemove={removeWidget} // Pass function as prop
+                    onRemove={removeWidget}
                   />
                 ))}
                 <div className="flex w-[400px] h-[200px] bg-white rounded-xl items-center justify-center">
-                  <AddWidgetButton />
+                  <AddWidgetButton handleOpenSidebar={handleOpenSidebar} />
                 </div>
               </div>
             </div>

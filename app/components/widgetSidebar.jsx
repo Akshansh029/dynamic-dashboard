@@ -1,10 +1,42 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { initialDashboardData } from "@/dashboardData";
 import { FiGrid } from "react-icons/fi";
 import { CiTextAlignLeft } from "react-icons/ci";
+import { toast } from "sonner";
 
 const WidgetSidebar = ({ closeSidebar }) => {
   const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(0);
+  const [widgetName, setWidgetName] = useState("");
+  const [widgetText, setWidgetText] = useState("");
+
+  const handleAddWidget = (categoryId, widgetName, widgetText) => {
+    if (widgetName.length != 0 || widgetText.length != 0) {
+      const category = initialDashboardData.categories.find(
+        (cat) => cat.categoryId === categoryId
+      );
+      if (category) {
+        const newWidgetId = category.widgets.length
+          ? category.widgets[category.widgets.length - 1].widgetId + 1
+          : 1;
+        category.widgets.push({
+          widgetId: newWidgetId,
+          widgetName,
+          widgetText,
+        });
+        toast.success("Widget added successfully!");
+      } else {
+        console.error("Category not found!");
+        toast.error("Category not found");
+      }
+    }
+  };
+
+  const handleAddWidgetClick = () => {
+    const selectedCategoryId =
+      initialDashboardData.categories[selectedCategoryIndex].categoryId;
+    handleAddWidget(selectedCategoryId, widgetName, widgetText);
+    closeSidebar();
+  };
 
   const handleClick = (index) => {
     setSelectedCategoryIndex(index);
@@ -32,6 +64,8 @@ const WidgetSidebar = ({ closeSidebar }) => {
                   type="text"
                   name="widgetName"
                   id="widgetName"
+                  value={widgetName}
+                  onChange={(e) => setWidgetName(e.target.value)}
                   className="w-full px-3 py-2 border max-h-8 border-gray-300 text-slate-800 rounded-md focus:outline-none focus:ring-2 focus:ring-[#054b72] placeholder:text-sm"
                   placeholder="Widget name"
                 />
@@ -42,6 +76,8 @@ const WidgetSidebar = ({ closeSidebar }) => {
                   type="text"
                   name="widgetText"
                   id="widgetText"
+                  value={widgetText}
+                  onChange={(e) => setWidgetText(e.target.value)}
                   className="w-full px-3 py-2 border max-h-8 border-gray-300 text-slate-800 rounded-md focus:outline-none focus:ring-2 focus:ring-[#054b72] placeholder:text-sm"
                   placeholder="Widget text"
                 />
@@ -79,7 +115,7 @@ const WidgetSidebar = ({ closeSidebar }) => {
                 >
                   <input
                     type="checkbox"
-                    checked
+                    defaultChecked
                     name="input"
                     id={widget.widgetId}
                   />
@@ -95,10 +131,16 @@ const WidgetSidebar = ({ closeSidebar }) => {
           </div>
         </div>
         <div className="p-4 flex gap-2 items-center justify-end bg-white">
-          <button className="border-2 border-[#13147c] px-4 py-2 rounded-lg bg-[#13147c] text-white font-medium text-sm">
+          <button
+            className="border-2 border-[#13147c] px-4 py-2 rounded-lg bg-[#13147c] text-white font-medium text-sm"
+            onClick={handleAddWidgetClick}
+          >
             Confirm
           </button>
-          <button className="border-2 border-[#13147c] px-4 py-2 rounded-lg bg-white text-[#13147c] font-medium text-sm">
+          <button
+            className="border-2 border-[#13147c] px-4 py-2 rounded-lg bg-white text-[#13147c] font-medium text-sm"
+            onClick={closeSidebar}
+          >
             Cancel
           </button>
         </div>

@@ -52,21 +52,3 @@ export const initialDashboardData = {
 };
 
 export const categories = initialDashboardData.categories;
-
-export function addWidget(categoryId, widgetName, widgetText) {
-  const category = initialDashboardData.categories.find(
-    (cat) => cat.categoryId === categoryId
-  );
-  if (category) {
-    const newWidgetId = category.widgets.length
-      ? category.widgets[category.widgets.length - 1].widgetId + 1
-      : 1;
-    category.widgets.push({
-      widgetId: newWidgetId,
-      widgetName,
-      widgetText,
-    });
-  } else {
-    console.error("Category not found!");
-  }
-}

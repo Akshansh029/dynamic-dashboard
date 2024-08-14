@@ -15,7 +15,7 @@ const Widget = ({ categoryId, widgetId, widgetName, widgetText, onRemove }) => {
       <h2 className="text-base font-semibold text-slate-800">{widgetName}</h2>
       <div className="flex flex-col h-full">
         <p className="text-black text-base mt-2">{widgetText}</p>
-        <div className="mt-[2rem] flex flex-col items-center justify-center gap-2s">
+        <div className="mt-[2rem] flex flex-col items-center justify-center gap-2">
           <BsGraphUp size={30} className="text-slate-500" />
           <p className="text-sm text-slate-500">No graph data is available</p>
         </div>

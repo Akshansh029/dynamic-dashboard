@@ -12,7 +12,6 @@ const Page = () => {
   const handleOpenSidebar = (e) => {
     e.preventDefault();
     setOpenSidebar(true);
-    console.log("Opening");
   };
 
   const handleCloseSidebar = () => {

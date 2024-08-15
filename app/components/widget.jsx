@@ -1,11 +1,10 @@
-// Widget.jsx
 import React from "react";
 import { BsGraphUp } from "react-icons/bs";
 import { IoIosClose } from "react-icons/io";
 
 const Widget = ({ categoryId, widgetId, widgetName, widgetText, onRemove }) => {
   return (
-    <div className="relative widget w-[400px] h-[200px] bg-white rounded-xl flex flex-col p-4">
+    <div className="relative min-w-[350px] min-h-[200px] bg-white rounded-xl flex flex-col p-4 flex-shrink-0">
       <button
         className="absolute top-3 right-3"
         onClick={() => onRemove(categoryId, widgetId)}

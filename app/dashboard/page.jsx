@@ -37,7 +37,12 @@ const Page = () => {
 
   return (
     <div className="h-full bg-[#f0f5f9] py-10 px-8 relative">
-      {openSidebar && <WidgetSidebar closeSidebar={handleCloseSidebar} />}
+      {openSidebar && (
+        <WidgetSidebar
+          closeSidebar={handleCloseSidebar}
+          dashboardData={dashboardData} // Pass the updated data here
+        />
+      )}
       <div className="">
         <div className="w-full flex items-center justify-between">
           <h1 className="text-2xl font-semibold text-[#054b72]">
@@ -51,7 +56,7 @@ const Page = () => {
               <h2 className="text-lg font-semibold text-slate-800">
                 {category.categoryName}
               </h2>
-              <div className="mt-2 flex items-center gap-3">
+              <div className="mt-2 flex items-center gap-3 overflow-x-auto flex-nowrap">
                 {category.widgets.map((widget) => (
                   <Widget
                     key={widget.widgetId}
@@ -62,7 +67,7 @@ const Page = () => {
                     onRemove={removeWidget}
                   />
                 ))}
-                <div className="flex w-[400px] h-[200px] bg-white rounded-xl items-center justify-center">
+                <div className="flex min-w-[400px] min-h-[200px] bg-white rounded-xl items-center justify-center flex-shrink-0">
                   <AddWidgetButton handleOpenSidebar={handleOpenSidebar} />
                 </div>
               </div>

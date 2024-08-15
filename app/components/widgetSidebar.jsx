@@ -1,17 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { initialDashboardData } from "@/dashboardData";
+import React, { useState } from "react";
 import { FiGrid } from "react-icons/fi";
 import { CiTextAlignLeft } from "react-icons/ci";
 import { toast } from "sonner";
 
-const WidgetSidebar = ({ closeSidebar }) => {
+const WidgetSidebar = ({ closeSidebar, dashboardData }) => {
   const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(0);
   const [widgetName, setWidgetName] = useState("");
   const [widgetText, setWidgetText] = useState("");
 
   const handleAddWidget = (categoryId, widgetName, widgetText) => {
-    if (widgetName.length != 0 || widgetText.length != 0) {
-      const category = initialDashboardData.categories.find(
+    if (widgetName.length !== 0 || widgetText.length !== 0) {
+      const category = dashboardData.categories.find(
         (cat) => cat.categoryId === categoryId
       );
       if (category) {
@@ -33,7 +32,7 @@ const WidgetSidebar = ({ closeSidebar }) => {
 
   const handleAddWidgetClick = () => {
     const selectedCategoryId =
-      initialDashboardData.categories[selectedCategoryIndex].categoryId;
+      dashboardData.categories[selectedCategoryIndex].categoryId;
     handleAddWidget(selectedCategoryId, widgetName, widgetText);
     closeSidebar();
   };
@@ -84,7 +83,7 @@ const WidgetSidebar = ({ closeSidebar }) => {
               </div>
             </div>
             <div className="container w-fit flex">
-              {initialDashboardData.categories.map((category, index) => (
+              {dashboardData.categories.map((category, index) => (
                 <button
                   key={index}
                   className={`relative text-sm font-semibold w-[80px] py-4 hover:text-[#054b72] ${
@@ -106,27 +105,27 @@ const WidgetSidebar = ({ closeSidebar }) => {
               ))}
             </div>
             <div className="checkbox-container flex flex-col gap-2 px-4 mt-4">
-              {initialDashboardData.categories[
-                selectedCategoryIndex
-              ]?.widgets.map((widget, index) => (
-                <div
-                  className="w-full px-3 py-2 border-2 border-gray-300 rounded-md flex gap-2"
-                  key={index}
-                >
-                  <input
-                    type="checkbox"
-                    defaultChecked
-                    name="input"
-                    id={widget.widgetId}
-                  />
-                  <label
-                    htmlFor={widget.widgetId}
-                    className="text-[#054b72] font-medium"
+              {dashboardData.categories[selectedCategoryIndex]?.widgets.map(
+                (widget, index) => (
+                  <div
+                    className="w-full px-3 py-2 border-2 border-gray-300 rounded-md flex gap-2"
+                    key={index}
                   >
-                    {widget.widgetName}
-                  </label>
-                </div>
-              ))}
+                    <input
+                      type="checkbox"
+                      defaultChecked
+                      name="input"
+                      id={widget.widgetId}
+                    />
+                    <label
+                      htmlFor={widget.widgetId}
+                      className="text-[#054b72] font-medium"
+                    >
+                      {widget.widgetName}
+                    </label>
+                  </div>
+                )
+              )}
             </div>
           </div>
         </div>

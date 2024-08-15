@@ -40,7 +40,8 @@ const Page = () => {
       {openSidebar && (
         <WidgetSidebar
           closeSidebar={handleCloseSidebar}
-          dashboardData={dashboardData} // Pass the updated data here
+          setDashboardData={setDashboardData}
+          dashboardData={dashboardData}
         />
       )}
       <div className="">

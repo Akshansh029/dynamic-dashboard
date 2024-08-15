@@ -1,18 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { toast } from "sonner";
 import { FiGrid } from "react-icons/fi";
 import { CiTextAlignLeft } from "react-icons/ci";
-import { toast } from "sonner";
 
-const WidgetSidebar = ({ closeSidebar, dashboardData }) => {
+const WidgetSidebar = ({ dashboardData, setDashboardData, closeSidebar }) => {
   const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(0);
   const [widgetName, setWidgetName] = useState("");
   const [widgetText, setWidgetText] = useState("");
+  const [checkboxStates, setCheckboxStates] = useState({});
 
-  const handleAddWidget = (categoryId, widgetName, widgetText) => {
-    if (widgetName.length !== 0 || widgetText.length !== 0) {
-      const category = dashboardData.categories.find(
-        (cat) => cat.categoryId === categoryId
-      );
+  useEffect(() => {
+    const initialCheckboxStates = {};
+    dashboardData.categories[selectedCategoryIndex].widgets.forEach(
+      (widget) => {
+        initialCheckboxStates[widget.widgetId] = true;
+      }
+    );
+    setCheckboxStates(initialCheckboxStates);
+  }, [selectedCategoryIndex, dashboardData]);
+
+  const handleCheckboxChange = (widgetId) => {
+    setCheckboxStates((prev) => ({
+      ...prev,
+      [widgetId]: !prev[widgetId],
+    }));
+  };
+
+  const handleAddWidget = () => {
+    if (widgetName.trim() || widgetText.trim()) {
+      const updatedDashboardData = { ...dashboardData };
+      const category = updatedDashboardData.categories[selectedCategoryIndex];
       if (category) {
         const newWidgetId = category.widgets.length
           ? category.widgets[category.widgets.length - 1].widgetId + 1
@@ -22,18 +39,34 @@ const WidgetSidebar = ({ closeSidebar, dashboardData }) => {
           widgetName,
           widgetText,
         });
+        setDashboardData(updatedDashboardData);
         toast.success("Widget added successfully!");
+        // Reset input fields
+        setWidgetName("");
+        setWidgetText("");
       } else {
-        console.error("Category not found!");
         toast.error("Category not found");
       }
+    } else {
+      toast.error("Please provide both a widget name and text");
     }
   };
 
-  const handleAddWidgetClick = () => {
-    const selectedCategoryId =
-      dashboardData.categories[selectedCategoryIndex].categoryId;
-    handleAddWidget(selectedCategoryId, widgetName, widgetText);
+  const handleConfirmChanges = () => {
+    const updatedCategories = dashboardData.categories.map(
+      (category, index) => {
+        if (index === selectedCategoryIndex) {
+          return {
+            ...category,
+            widgets: category.widgets.filter(
+              (widget) => checkboxStates[widget.widgetId]
+            ),
+          };
+        }
+        return category;
+      }
+    );
+    setDashboardData({ categories: updatedCategories });
     closeSidebar();
   };
 
@@ -52,9 +85,9 @@ const WidgetSidebar = ({ closeSidebar, dashboardData }) => {
           <div className="header h-fit bg-[#13147c] p-2">
             <h1 className="font-semibold text-white text-base">Add widget</h1>
           </div>
-          <div className="content p-4 flex flex-col overflow-y-auto h-[calc(100vh-120px)]">
+          <div className="content p-4 flex flex-col overflow-y-auto h-[calc(100vh-160px)]">
             <p className="text-sm text-black font-medium">
-              Personalize your dashboard by adding the following widget
+              Personalize your dashboard by adding or removing widgets
             </p>
             <div className="input-container flex flex-col gap-2">
               <div className="flex items-center gap-2 mt-4">
@@ -81,8 +114,14 @@ const WidgetSidebar = ({ closeSidebar, dashboardData }) => {
                   placeholder="Widget text"
                 />
               </div>
+              <button
+                className="mt-4 py-2 px-4 bg-[#13147c] text-white rounded-lg font-medium text-sm hover:bg-[#0f356a]"
+                onClick={handleAddWidget}
+              >
+                Add Widget
+              </button>
             </div>
-            <div className="container w-fit flex">
+            <div className="container w-fit flex mt-6">
               {dashboardData.categories.map((category, index) => (
                 <button
                   key={index}
@@ -113,9 +152,8 @@ const WidgetSidebar = ({ closeSidebar, dashboardData }) => {
                   >
                     <input
                       type="checkbox"
-                      defaultChecked
-                      name="input"
-                      id={widget.widgetId}
+                      checked={checkboxStates[widget.widgetId]}
+                      onChange={() => handleCheckboxChange(widget.widgetId)}
                     />
                     <label
                       htmlFor={widget.widgetId}
@@ -132,7 +170,7 @@ const WidgetSidebar = ({ closeSidebar, dashboardData }) => {
         <div className="p-4 flex gap-2 items-center justify-end bg-white">
           <button
             className="border-2 border-[#13147c] px-4 py-2 rounded-lg bg-[#13147c] text-white font-medium text-sm"
-            onClick={handleAddWidgetClick}
+            onClick={handleConfirmChanges}
           >
             Confirm
           </button>

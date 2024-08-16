@@ -1,13 +1,28 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AddWidgetButton from "../components/AddWidgetButton";
 import { initialDashboardData } from "@/dashboardData";
 import Widget from "../components/Widget";
 import WidgetSidebar from "../components/WidgetSidebar";
 
-const Page = () => {
+const Page = ({ searchQuery }) => {
   const [dashboardData, setDashboardData] = useState(initialDashboardData);
   const [openSidebar, setOpenSidebar] = useState(false);
+  const [filteredWidgets, setFilteredWidgets] = useState([]);
+
+  useEffect(() => {
+    if (searchQuery) {
+      const filtered = dashboardData.categories.flatMap((category) =>
+        category.widgets.filter((widget) =>
+          widget.widgetName.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+      );
+      setFilteredWidgets(filtered);
+      console.log(filteredWidgets);
+    } else {
+      setFilteredWidgets([]);
+    }
+  }, [searchQuery, dashboardData]);
 
   const handleOpenSidebar = (e) => {
     e.preventDefault();
@@ -44,36 +59,62 @@ const Page = () => {
           dashboardData={dashboardData}
         />
       )}
-      <div className="">
+      <div className="w-full flex flex-col gap-4">
         <div className="w-full flex items-center justify-between">
           <h1 className="text-2xl font-semibold text-[#054b72]">
             CNAPP Dashboard
           </h1>
           <AddWidgetButton handleOpenSidebar={handleOpenSidebar} />
         </div>
-        <div className="category-container px-2 py-2 flex flex-col gap-4">
-          {dashboardData.categories.map((category) => (
-            <div className="text-slate-800" key={category.categoryId}>
+        <div className="px-3">
+          {searchQuery ? (
+            <div className="text-slate-800">
               <h2 className="text-lg font-semibold text-slate-800">
-                {category.categoryName}
+                Search Results
               </h2>
               <div className="mt-2 flex items-center gap-3 overflow-x-auto flex-nowrap">
-                {category.widgets.map((widget) => (
-                  <Widget
-                    key={widget.widgetId}
-                    categoryId={category.categoryId}
-                    widgetId={widget.widgetId}
-                    widgetName={widget.widgetName}
-                    widgetText={widget.widgetText}
-                    onRemove={removeWidget}
-                  />
-                ))}
-                <div className="flex min-w-[400px] min-h-[200px] bg-white rounded-xl items-center justify-center flex-shrink-0">
-                  <AddWidgetButton handleOpenSidebar={handleOpenSidebar} />
-                </div>
+                {filteredWidgets.length > 0 ? (
+                  filteredWidgets.map((widget) => (
+                    <Widget
+                      key={widget.widgetId}
+                      categoryId={widget.categoryId}
+                      widgetId={widget.widgetId}
+                      widgetName={widget.widgetName}
+                      widgetText={widget.widgetText}
+                      onRemove={removeWidget}
+                    />
+                  ))
+                ) : (
+                  <div className="flex items-center justify-center text-slate-500">
+                    No widgets found.
+                  </div>
+                )}
               </div>
             </div>
-          ))}
+          ) : (
+            dashboardData.categories.map((category) => (
+              <div className="text-slate-800" key={category.categoryId}>
+                <h2 className="text-lg font-semibold text-slate-800">
+                  {category.categoryName}
+                </h2>
+                <div className="mt-2 flex items-center gap-3 overflow-x-auto flex-nowrap">
+                  {category.widgets.map((widget) => (
+                    <Widget
+                      key={widget.widgetId}
+                      categoryId={category.categoryId}
+                      widgetId={widget.widgetId}
+                      widgetName={widget.widgetName}
+                      widgetText={widget.widgetText}
+                      onRemove={removeWidget}
+                    />
+                  ))}
+                  <div className="flex min-w-[400px] min-h-[200px] bg-white rounded-xl items-center justify-center flex-shrink-0">
+                    <AddWidgetButton handleOpenSidebar={handleOpenSidebar} />
+                  </div>
+                </div>
+              </div>
+            ))
+          )}
         </div>
       </div>
     </div>

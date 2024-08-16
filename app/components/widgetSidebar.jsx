@@ -41,7 +41,6 @@ const WidgetSidebar = ({ dashboardData, setDashboardData, closeSidebar }) => {
         });
         setDashboardData(updatedDashboardData);
         toast.success("Widget added successfully!");
-        // Reset input fields
         setWidgetName("");
         setWidgetText("");
       } else {
@@ -151,12 +150,13 @@ const WidgetSidebar = ({ dashboardData, setDashboardData, closeSidebar }) => {
                     key={index}
                   >
                     <input
+                      id={`widget-checkbox-${widget.widgetId}`}
                       type="checkbox"
                       checked={checkboxStates[widget.widgetId]}
                       onChange={() => handleCheckboxChange(widget.widgetId)}
                     />
                     <label
-                      htmlFor={widget.widgetId}
+                      htmlFor={`widget-checkbox-${widget.widgetId}`}
                       className="text-[#054b72] font-medium"
                     >
                       {widget.widgetName}

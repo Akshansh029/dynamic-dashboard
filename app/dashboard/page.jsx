@@ -1,14 +1,18 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import AddWidgetButton from "../components/AddWidgetButton";
 import { initialDashboardData } from "@/dashboardData";
 import Widget from "../components/Widget";
 import WidgetSidebar from "../components/WidgetSidebar";
+import useSearchStore from "../store/useSearchStore";
 
-const Page = ({ searchQuery }) => {
+const Page = () => {
+  const { searchQuery } = useSearchStore();
   const [dashboardData, setDashboardData] = useState(initialDashboardData);
   const [openSidebar, setOpenSidebar] = useState(false);
   const [filteredWidgets, setFilteredWidgets] = useState([]);
+
+  console.log("Search Query:", searchQuery);
 
   useEffect(() => {
     if (searchQuery) {
@@ -18,7 +22,6 @@ const Page = ({ searchQuery }) => {
         )
       );
       setFilteredWidgets(filtered);
-      console.log(filteredWidgets);
     } else {
       setFilteredWidgets([]);
     }
@@ -51,7 +54,7 @@ const Page = ({ searchQuery }) => {
   };
 
   return (
-    <div className="h-full bg-[#f0f5f9] py-10 px-8 relative">
+    <div className="h-full bg-[#f0f5f9] py-6 px-8 relative">
       {openSidebar && (
         <WidgetSidebar
           closeSidebar={handleCloseSidebar}
@@ -59,7 +62,7 @@ const Page = ({ searchQuery }) => {
           dashboardData={dashboardData}
         />
       )}
-      <div className="w-full flex flex-col gap-4">
+      <div className="w-full flex flex-col gap-2">
         <div className="w-full flex items-center justify-between">
           <h1 className="text-2xl font-semibold text-[#054b72]">
             CNAPP Dashboard
@@ -93,7 +96,7 @@ const Page = ({ searchQuery }) => {
             </div>
           ) : (
             dashboardData.categories.map((category) => (
-              <div className="text-slate-800" key={category.categoryId}>
+              <div className="text-slate-800 mb-2" key={category.categoryId}>
                 <h2 className="text-lg font-semibold text-slate-800">
                   {category.categoryName}
                 </h2>

@@ -6,12 +6,12 @@ export const initialDashboardData = {
       widgets: [
         {
           widgetId: 1,
-          widgetName: "Widget 1",
+          widgetName: "Cloud Accounts",
           widgetText: "This is some random text for Widget 1.",
         },
         {
           widgetId: 2,
-          widgetName: "Widget 2",
+          widgetName: "Cloud Accounts Risk Assessment",
           widgetText: "This is some random text for Widget 2.",
         },
       ],
@@ -22,12 +22,12 @@ export const initialDashboardData = {
       widgets: [
         {
           widgetId: 1,
-          widgetName: "Widget A",
+          widgetName: "Namespace Specific Events",
           widgetText: "This is some random text for Widget A.",
         },
         {
           widgetId: 2,
-          widgetName: "Widget B",
+          widgetName: "Workload Alerts",
           widgetText: "This is some random text for Widget B.",
         },
       ],
@@ -38,12 +38,12 @@ export const initialDashboardData = {
       widgets: [
         {
           widgetId: 1,
-          widgetName: "Widget C",
+          widgetName: "Image Risk Assessment",
           widgetText: "This is some random text for Widget C.",
         },
         {
           widgetId: 2,
-          widgetName: "Widget D",
+          widgetName: "Image Security Issues",
           widgetText: "This is some random text for Widget D.",
         },
       ],

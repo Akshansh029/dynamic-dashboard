@@ -5,14 +5,20 @@ import { initialDashboardData } from "@/dashboardData";
 import Widget from "../components/Widget";
 import WidgetSidebar from "../components/WidgetSidebar";
 import useSearchStore from "../store/useSearchStore";
+import { toast } from "sonner";
 
 const Page = () => {
   const { searchQuery } = useSearchStore();
-  const [dashboardData, setDashboardData] = useState(initialDashboardData);
+  const [dashboardData, setDashboardData] = useState(() => {
+    const savedData = localStorage.getItem("dashboardData");
+    return savedData ? JSON.parse(savedData) : initialDashboardData;
+  });
   const [openSidebar, setOpenSidebar] = useState(false);
   const [filteredWidgets, setFilteredWidgets] = useState([]);
 
-  console.log("Search Query:", searchQuery);
+  useEffect(() => {
+    localStorage.setItem("dashboardData", JSON.stringify(dashboardData));
+  }, [dashboardData]);
 
   useEffect(() => {
     if (searchQuery) {
@@ -51,6 +57,7 @@ const Page = () => {
       });
       return { categories: updatedCategories };
     });
+    toast.success("Category deleted successfully");
   };
 
   return (

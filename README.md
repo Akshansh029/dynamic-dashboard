@@ -144,6 +144,6 @@ The widgets and categories are dynamically generated based on a JSON configurati
     You should now see the dynamic dashboard interface where you can manage categories and widgets.
 # Technologies Used
 
-- **NextJS:** Frontend library for building the dynamic UI.
+- **ReactJS/NextJS:** Frontend framework for building the dynamic UI.
 - **Tailwind CSS:** Utility-first CSS framework for styling.
 - **JSON:** Configuration for categories and widgets.

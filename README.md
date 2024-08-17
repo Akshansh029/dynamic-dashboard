@@ -9,7 +9,7 @@ This project involves creating a dynamic dashboard where users can manage widget
 
 1. **Dynamic Categories and Widgets:** 
    - The dashboard is structured into categories (e.g., CSPM Executive Dashboard), and each category can contain multiple widgets.
-   - Widgets are represented with random text for assignment purposes.
+   - Widgets are represented with random text but can be set with data.
 
 2. **Add and Remove Widgets:**
    - Users can add a widget to a category by providing a widget name and description.
